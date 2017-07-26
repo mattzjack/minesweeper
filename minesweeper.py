@@ -91,6 +91,7 @@ class Minesweeper(object):
 				self.show_neighbours(row_ind, col_ind, dr, dc, s)
 
 	def show_zeros(self, row_ind, col_ind):
+		if self.board[row_ind][col_ind] == -1: return
 		if self.board[row_ind][col_ind] != -1:
 			self.board_status[row_ind][col_ind] = True
 		for (dr, dc) in (          (-1, -0),
@@ -282,12 +283,15 @@ class Minesweeper(object):
 				yt = y0 + self.cell_size / 2
 				t = str(self.board[row_ind][col_ind])
 				if t == '0':
-					t = '_'
+					t = '-'
+				elif t == '-1':
+					t = '*'
 				self.canvas.create_rectangle(x0, y0, x1, y1, fill='grey')
 				if self.board_status[row_ind][col_ind] == True:
 					self.canvas.create_text(xt, yt, text=t)
 				elif self.board_status[row_ind][col_ind] == '!':
-					self.canvas.create_text(xt, yt, text='!')
+					self.canvas.create_text(xt, yt, text='!', fill='red',
+						font='Arial 12 bold')
 
 	def draw_highlight(self):
 		if (self.curr_row not in range(self.num_rows) or
@@ -319,5 +323,5 @@ class Minesweeper(object):
 		self.timer()
 		self.root.mainloop()
 
-minesweeper = Minesweeper()
+minesweeper = Minesweeper(2)
 minesweeper.run()
