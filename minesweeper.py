@@ -102,6 +102,8 @@ class Minesweeper(object):
 				continue
 			if self.board[nrow][ncol] == 0:
 				self.show_neighbours(row_ind, col_ind, dr, dc)
+			elif self.board[nrow][ncol] != -1:
+				self.board_status[nrow][ncol] = True
 
 	def btn1(self, event):
 		if (self.width / 2 - self.cell_size / 2 <= event.x <=
@@ -279,6 +281,8 @@ class Minesweeper(object):
 				xt = x0 + self.cell_size / 2
 				yt = y0 + self.cell_size / 2
 				t = str(self.board[row_ind][col_ind])
+				if t == '0':
+					t = '_'
 				self.canvas.create_rectangle(x0, y0, x1, y1, fill='grey')
 				if self.board_status[row_ind][col_ind] == True:
 					self.canvas.create_text(xt, yt, text=t)
